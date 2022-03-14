@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import sn.esmt.domaine.Employee;
@@ -26,7 +28,9 @@ public class ProjetJpaRepositoryApplication implements CommandLineRunner {
 		//afficherTout();
 		//triCroissantNom();
 		//triDecroissantNom();
-		triDecroissantSalaire();
+		//triDecroissantSalaire();
+		//paginer();
+		paginerParametriquement();
 		
 	}
 	
@@ -56,6 +60,33 @@ public class ProjetJpaRepositoryApplication implements CommandLineRunner {
 		List<Employee> liste = repo.findAll(Sort.by("salbase").descending());
 		for (Employee x:liste)
 			System.out.println(x.getId()+" "+x.getNom()+" "+x.getSalbase());
+	}
+	
+	private void paginer() 
+	{
+		Page<Employee> page = repo.findAll(PageRequest.of(0, 2));
+		System.out.println("Nombre d'enrg: "+page.getTotalElements());
+		System.out.println("Nombre de page: "+page.getTotalPages());
+		for (Employee x: page.getContent())
+		{
+			System.out.println("Id :"+x.getId()+" "+x.getNom()+" "+x.getSalbase());
+		}
+	}
+	
+	private void paginerParametriquement()
+	{
+		Page<Employee> page = repo.findAll(PageRequest.of(0, 2));
+		int nombre_pages = page.getTotalPages();
+		for (int i=0;i<nombre_pages;i++)
+		{
+			System.out.println("_____________________Page"+i+"___________");
+			Page<Employee> page2 = repo.findAll(PageRequest.of(i, 2));
+			for (Employee x: page2.getContent())
+			{
+				System.out.println("Id :"+x.getId()+" "+x.getSalbase());
+			}
+			System.out.println("_____________________________");
+		}
 	}
 
 }
