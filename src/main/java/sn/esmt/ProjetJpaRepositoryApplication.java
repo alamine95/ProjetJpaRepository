@@ -30,7 +30,10 @@ public class ProjetJpaRepositoryApplication implements CommandLineRunner {
 		//triDecroissantNom();
 		//triDecroissantSalaire();
 		//paginer();
-		paginerParametriquement();
+		//paginerParametriquement();
+		//nomIdentiques();
+		//nomEtPrenomIdentique();
+		salaireIdentiques();
 		
 	}
 	
@@ -86,6 +89,33 @@ public class ProjetJpaRepositoryApplication implements CommandLineRunner {
 				System.out.println("Id :"+x.getId()+" "+x.getSalbase());
 			}
 			System.out.println("_____________________________");
+		}
+	}
+	
+	private void nomIdentiques()
+	{
+		List<Employee> liste = repo.getByNom("Sow");
+		for (Employee x: liste)
+		{
+			System.out.println("Id:"+x.getId()+" "+x.getNom());
+		}
+	}
+	
+	private void nomEtPrenomIdentique()
+	{
+		List<Employee> liste = repo.getByNomAndPrenom("Sow","Lamda");
+		for (Employee x: liste)
+		{
+			System.out.println("Id:"+x.getId()+" "+x.getNom());
+		}
+	}
+	
+	private void salaireIdentiques()
+	{
+		List<Employee> liste = repo.getBySalbase(350000);
+		for (Employee x: liste)
+		{
+			System.out.println("Id:"+x.getId()+" "+x.getNom()+" "+x.getNom());
 		}
 	}
 
